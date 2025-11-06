@@ -1,0 +1,12 @@
+SELECT 
+    D.ID,
+    D.EMAIL,
+    D.FIRST_NAME,
+    D.LAST_NAME
+FROM DEVELOPERS D
+WHERE
+    -- Python 또는 C# 스킬 코드가 포함된 개발자
+    (D.SKILL_CODE & (SELECT CODE FROM SKILLCODES WHERE NAME = 'Python')) != 0
+    OR
+    (D.SKILL_CODE & (SELECT CODE FROM SKILLCODES WHERE NAME = 'C#')) != 0
+ORDER BY D.ID;
