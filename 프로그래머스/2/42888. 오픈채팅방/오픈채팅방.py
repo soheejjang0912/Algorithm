@@ -1,13 +1,7 @@
-# 
-# 
+ 
 
 def solution(record):
-    answer = []
-    
-    # 해시?로 아이디 닉네임 저장
-    # Change 작업 완료
-    
-    # Change제외한 record 이용하여 resulst 생성
+    answer = [] 
     
     nickname = {}
     
