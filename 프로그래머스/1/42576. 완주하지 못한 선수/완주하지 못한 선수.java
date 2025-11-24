@@ -1,30 +1,32 @@
-// participant: 참여한 선수 이름 
-// completion: 완주한 선수
-// 완주하지 못한 선수의 이름을 return 
-/*
-동명이인 있음 -> 단순 포함 여부로 판단 불가 
-
-1. participant, completion 정렬하기
-2. participant 와 completion가 다른 순간 return 
-
-*/ 
-import java.util.Arrays;
+import java.util.HashMap;
 
 class Solution {
+
+    // 핵심 로직은 solution에, 반복적인 작업만 함수로 분리한 버전
     public String solution(String[] participant, String[] completion) {
-        String answer = "";
-        
-        // 1. participant, completion 정렬하기
-        Arrays.sort(participant);
-        Arrays.sort(completion);
-        
-        // 2. participant 와 completion가 다른 순간 return
-        for (int runner = 0; runner < completion.length; runner++){
-            if (!participant[runner].equals(completion[runner])){
-                return participant[runner];
-            } 
+        HashMap<String, Integer> playerCountMap = countParticipants(participant);
+
+        // 완주자 차감
+        for (String completionName : completion) {
+            playerCountMap.put(completionName, playerCountMap.get(completionName) - 1);
         }
-        
-        return participant[participant.length-1];
+
+        // 남은 사람 찾기
+        for (String playerName : playerCountMap.keySet()) {
+            if (playerCountMap.get(playerName) > 0) {
+                return playerName;
+            }
+        }
+
+        return "";
+    }
+
+    // 참가자 카운팅만 함수로 분리
+    private HashMap<String, Integer> countParticipants(String[] participantList) {
+        HashMap<String, Integer> playerCountMap = new HashMap<>();
+        for (String participantName : participantList) {
+            playerCountMap.put(participantName, playerCountMap.getOrDefault(participantName, 0) + 1);
+        }
+        return playerCountMap;
     }
 }
